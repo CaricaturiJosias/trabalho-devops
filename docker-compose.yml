@@ -16,7 +16,6 @@ services:
       dockerfile: Dockerfile.mysql
     environment:
       MYSQL_ROOT_PASSWORD: strong_password
-      MYSQL_USER: root
       MYSQL_DATABASE: docker_e_kubernetes
     ports:
       - "3306:3306"
