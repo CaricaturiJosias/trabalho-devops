@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.web
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: strong_password
+      MYSQL_DBNAME: docker_e_kubernetes
+      MYSQL_ADDRESS: db:3306
+    ports:
+      - "8200:8200"
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile.mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: strong_password
+      MYSQL_USER: root
+      MYSQL_DATABASE: docker_e_kubernetes
+    ports:
+      - "3306:3306"
