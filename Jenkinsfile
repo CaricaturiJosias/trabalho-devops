@@ -29,7 +29,6 @@ pipeline {
         stage('Deliver') {
             steps {
                 dir("trabalho-devops") {
-                    sh "git branch -u main/${env.BRANCH_NAME}"
                     sh "git push"
                 }
             }
