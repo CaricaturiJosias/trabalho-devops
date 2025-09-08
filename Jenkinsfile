@@ -1,17 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Preparation') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'jenkins-pipeline', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh '''
-                    git config --global user.name "${GIT_USERNAME}"
-                    git config --global user.password "${GIT_PASSWORD}"
-                    git push --set-upstream origin qa
-                    '''
-                }
-            }
-        }
         // Limpar o que foi baixado na ultima build
         stage('Cleanup') {
             steps {
@@ -20,7 +9,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                sh 'git clone https://github.com/CaricaturiJosias/trabalho-devops.git'
+                sh 'git clone git@github.com:CaricaturiJosias/trabalho-devops.git'
                 dir("trabalho-devops") {
                     sh "pwd"
                     sh 'git status'
