@@ -1,6 +1,17 @@
 pipeline {
     agent any
     stages {
+        stage('Preparation') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-pipeline', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    sh '''
+                    git config --global user.name "${GIT_USERNAME}"
+                    git config --global user.password "${GIT_PASSWORD}"
+                    git push --set-upstream origin qa
+                    '''
+                }
+            }
+        }
         // Limpar o que foi baixado na ultima build
         stage('Cleanup') {
             steps {
