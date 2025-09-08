@@ -1,12 +1,5 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'BRANCH', defaultValue: 'main', description: 'branch to be pushed to main', trim: true)
-        
-        string(name: 'git_name', defaultValue: 'Someone', description: 'Git user for push', trim: true)
-        
-        string(name: 'git_email', defaultValue: 'someone@gmail.com', description: 'Git email for push', trim: true)
-    }
     stages {
         // Limpar o que foi baixado na ultima build
         stage('Cleanup') {
@@ -20,7 +13,6 @@ pipeline {
                 dir("trabalho-devops") {
                     sh "pwd"
                     sh 'git status'
-                    sh "git checkout ${params.BRANCH}"
                 }
                 sh 'ls trabalho-devops'
                 sh 'docker-compose --version'
@@ -37,9 +29,7 @@ pipeline {
         stage('Deliver') {
             steps {
                 dir("trabalho-devops") {
-                    sh "git config user.name ${params.git_name}"
-                    sh "git config user.email ${params.git_email}"
-                    sh "git push --set-upstream origin ${params.BRANCH}"
+                    sh "git push --set-upstream origin ${env.BRANCH_NAME}"
                 }
             }
         }
