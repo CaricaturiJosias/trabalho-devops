@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                sh 'git clone git@github.com:CaricaturiJosias/trabalho-devops.git'
+                sh 'git clone https://github.com/CaricaturiJosias/trabalho-devops.git'
                 dir("trabalho-devops") {
                     sh "pwd"
                     sh 'git status'
