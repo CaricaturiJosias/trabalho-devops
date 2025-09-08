@@ -29,7 +29,8 @@ pipeline {
         stage('Deliver') {
             steps {
                 dir("trabalho-devops") {
-                    sh "git push --set-upstream origin ${env.BRANCH_NAME}"
+                    sh "git branch -u main/${env.BRANCH_NAME}"
+                    sh "git push"
                 }
             }
         }
