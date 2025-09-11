@@ -27,6 +27,13 @@ pipeline {
             steps {
                 sh 'docker-compose -f ./trabalho-devops/docker-compose.yml up -d'
                 sh 'docker ps'
+                sh '''
+                    docker exec -i trabalho-devops-web-1 bash -c '
+                        exec 3<>/dev/tcp/127.0.0.1/8200
+                        echo -e "GET / HTTP/1.1\\r\\nHost: 127.0.0.1\\r\\nConnection: close\\r\\n\\r\\n" >&3
+                        cat <&3
+                        exec 3>&-'
+                '''
             }
         }
 
@@ -38,12 +45,9 @@ pipeline {
                             git config user.email "smoke.argacezario@gmail.com"
                             git config user.name "CaricaturiJosias"
 
-                            # Make sure remote has credentials
-                            git remote set-url origin https://$GIT_USER:$GIT_PASS@github.com/CaricaturiJosias/trabalho-devops.git
-
                             git add .
                             git commit -m "Automated commit" || true
-                            git push origin HEAD:${BRANCH_NAME}
+                            git push origin HEAD:qa
                         '''
                     }
                 }
